@@ -17,7 +17,7 @@ import com.dus.base.schema.action.IActionExecutor;
 import com.dus.base.schema.action.SAction;
 import com.dus.impl.ReflectionHelper;
 import com.dus.impl.ReflectionHelper.MethodType;
-import com.dus.spi.store.IStore;
+import com.dus.spi.container.IStore;
 
 public class EntityProxyHandler implements InvocationHandler {
 	private static final Map<String, IMethodExecutor> entityMethods = new HashMap<String, IMethodExecutor>();
@@ -48,7 +48,9 @@ public class EntityProxyHandler implements InvocationHandler {
 	public EntityProxyHandler(EntityID id, IStore store) {
 		this.id = id;
 		this.store = store;
-		store.mapEntity(id, ReflectionHelper.createProxy(id.schema.getType(), this));
+		
+		IEntity entity = ReflectionHelper.createProxy(id.schema.getType(), this);
+		store.mapEntity(id, entity);
 	}
 	
 	public EntityID getId() {return id;}

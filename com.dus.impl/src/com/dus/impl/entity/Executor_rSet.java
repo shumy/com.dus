@@ -6,7 +6,7 @@ import com.dus.base.notification.Notification.Type;
 import com.dus.base.schema.SProperty;
 import com.dus.context.Context;
 import com.dus.impl.transaction.Transaction;
-import com.dus.spi.store.IStore;
+import com.dus.spi.container.IStore;
 
 public class Executor_rSet implements IMethodExecutor {
 

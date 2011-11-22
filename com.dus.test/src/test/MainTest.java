@@ -4,6 +4,7 @@ import com.dus.Dus;
 import com.dus.DusConfig;
 import com.dus.ISchemaRepository;
 import com.dus.ISession;
+import com.dus.base.finder.IFinder;
 import com.dus.base.schema.SEntity;
 import com.dus.base.schema.SProperty;
 import com.dus.provider.dummy.router.MyQueryRouter;
@@ -56,14 +57,16 @@ public class MainTest {
 		String login = user.rGet(property);
 		System.out.println("LOGIN: " + login);
 		System.out.println(user);
-				
-		//finder usage:
-		/*User user1 = session.find(User.Find.class).byId("id");
 		
-		System.out.println("USER GROUPS: ");
+		
+		//finder usage:
+		IFinder<User> userFind = session.find(User.Find.class);
+		User user1 = userFind.byId(user.getId().clientId);
+		
+		System.out.println("User groups for: " + user1);
 		for(Group group: user1.getGroups()) {
 			System.out.println(group);
-		}*/
+		}
 	}
 
 }

@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.dus.base.IEntity;
 import com.dus.base.schema.SEntity;
 import com.dus.base.schema.SProperty;
 import com.dus.base.schema.action.SAction;
 import com.dus.container.IRList;
 
 public class SEntityImpl implements SEntity {
-	private final Class<?> type;
+	private final Class<? extends IEntity> type;
 	
 	private final Map<String, SProperty> properties = new HashMap<String, SProperty>();
 	private final IRList<SProperty> propList = new IRList<SProperty>() {
@@ -48,7 +49,7 @@ public class SEntityImpl implements SEntity {
 		}
 	};
 	
-	public SEntityImpl(Class<?> type) {
+	public SEntityImpl(Class<? extends IEntity> type) {
 		this.type = type;
 	}
 	
@@ -69,7 +70,7 @@ public class SEntityImpl implements SEntity {
 	}
 	
 	@Override
-	public Class<?> getType() {return type;}
+	public Class<? extends IEntity> getType() {return type;}
 
 	@Override
 	public IRList<SProperty> getProperties() {return propList;}

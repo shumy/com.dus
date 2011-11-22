@@ -1,8 +1,9 @@
-package com.dus.spi;
+package com.dus.spi.container;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+
 
 public class Tree<K1, K2, V3> implements ITree<K1, K2, V3> {
 	private HashMap<K1, HashMap<K2, V3>> cache = new HashMap<K1, HashMap<K2, V3>>();

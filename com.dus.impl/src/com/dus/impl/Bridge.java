@@ -1,9 +1,9 @@
 package com.dus.impl;
 
 import com.dus.Dus.IBridge;
+import com.dus.spi.container.Store;
 import com.dus.spi.router.IQueryRouter;
 import com.dus.spi.router.ITransactionRouter;
-import com.dus.spi.store.Store;
 import com.dus.DusConfig;
 import com.dus.ISchemaRepository;
 import com.dus.ISession;

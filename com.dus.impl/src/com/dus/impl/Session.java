@@ -8,16 +8,16 @@ import com.dus.ISession;
 import com.dus.base.EntityID;
 import com.dus.base.IEntity;
 import com.dus.base.builder.IBuilder;
-import com.dus.base.finder.FetchConfig;
+import com.dus.base.finder.FetchOptions;
 import com.dus.base.finder.IFinder;
 import com.dus.base.schema.SEntity;
 import com.dus.base.schema.SProperty;
 import com.dus.context.Context;
 import com.dus.impl.entity.EntityProxyHandler;
 import com.dus.impl.transaction.Transaction;
+import com.dus.spi.container.IStore;
 import com.dus.spi.router.IQueryRouter;
 import com.dus.spi.router.ITransactionRouter;
-import com.dus.spi.store.IStore;
 
 public class Session implements ISession {
 	
@@ -74,15 +74,17 @@ public class Session implements ISession {
 	}
 
 	@Override
-	public <F extends IFinder<?>> F find(Class<F> finder) {
-		// TODO Auto-generated method stub
-		return null;
+	public <F extends IFinder<? extends IEntity>> F find(Class<F> finder) {
+		return find(finder, null);
 	}
 
+	
 	@Override
-	public <F extends IFinder<?>> F find(Class<F> finder, FetchConfig fConfig) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public <F extends IFinder<? extends IEntity>> F find(Class<F> finder, FetchOptions fOptions) {
+		FinderProxyHandler handler = new FinderProxyHandler(this, finder, fOptions);
+		
+		return (F) handler.getFinder();
 	}
 
 	@Override

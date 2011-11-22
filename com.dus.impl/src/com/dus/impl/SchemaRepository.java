@@ -20,17 +20,18 @@ public class SchemaRepository implements ISchemaRepository {
 	private final Map<Class<?>, SEntity> schemas = new HashMap<Class<?>, SEntity>();
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public void register(Class<? extends IEntity> type) {
 		SEntityImpl entity = getOrRegister(type);
 		
 		for(Class<?> i_nterface: type.getInterfaces())
-			if(i_nterface != IEntity.class) {
-				SEntity iEntity = getOrRegister(i_nterface);
+			if(i_nterface != IEntity.class && IEntity.class.isAssignableFrom(i_nterface)) {
+				SEntity iEntity = getOrRegister((Class<? extends IEntity>)i_nterface);
 				entity.addComponent(iEntity);
 			}
 		
 		schemas.put(type, entity);
-		System.out.println(entity);
+		//System.out.println(entity);
 	}
 	
 	@Override
@@ -41,7 +42,18 @@ public class SchemaRepository implements ISchemaRepository {
 		return schemas.get(type);
 	}
 	
-	private SEntityImpl getOrRegister(Class<?> i_nterface) {
+	@Override
+	@SuppressWarnings("unchecked")
+	public SEntity getSchemaFor(String typeName) {
+		try {
+			Class<? extends IEntity> type = (Class<? extends IEntity>) this.getClass().getClassLoader().loadClass(typeName);
+			return getSchemaFor(type);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private SEntityImpl getOrRegister(Class<? extends IEntity> i_nterface) {
 		SEntityImpl rSchema = (SEntityImpl) schemas.get(i_nterface);
 		if(rSchema == null) {
 			rSchema = new SEntityImpl(i_nterface);

@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import com.dus.base.EntityID;
 import com.dus.base.schema.SProperty;
-import com.dus.spi.ITree;
-import com.dus.spi.Tree;
+import com.dus.spi.container.ITree;
+import com.dus.spi.container.Tree;
 import com.dus.spi.transaction.ITransactionRequest;
 
 public final class TransactionData implements ITransactionRequest {
@@ -106,7 +106,7 @@ public final class TransactionData implements ITransactionRequest {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("TRANSACTION: ");
 		sb.append(id);
-		sb.append("\n  DELETE ENTITIES: {");
+		sb.append("\n  DELETE ENTITIES: [");
 		if(!deleteEntities.isEmpty()) {
 			for(EntityID id: deleteEntities) {
 				sb.append(id);
@@ -114,9 +114,9 @@ public final class TransactionData implements ITransactionRequest {
 			}
 			sb.delete(sb.length()-2, sb.length());
 		}
-		sb.append("}\n");
+		sb.append("]\n");
 		
-		sb.append("  NEW ENTITIES: {");
+		sb.append("  NEW ENTITIES: [");
 		if(!newEntities.isEmpty()) {
 			for(EntityID id: newEntities) {
 				sb.append(id);
@@ -124,7 +124,7 @@ public final class TransactionData implements ITransactionRequest {
 			}
 			sb.delete(sb.length()-2, sb.length());
 		}
-		sb.append("}\n");
+		sb.append("]\n");
 		
 		sb.append("  PROPERTIES: \n");
 		for(EntityID id: properties.keySetLevel1()) {

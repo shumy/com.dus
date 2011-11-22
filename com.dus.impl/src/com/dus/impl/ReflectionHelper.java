@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-import com.dus.base.IEntity;
-
 public class ReflectionHelper {
 	public static enum MethodType {IS, GET, SET, ACTION}
 	
@@ -41,7 +39,8 @@ public class ReflectionHelper {
 		return MethodType.ACTION;
 	}
 	
-	public static IEntity createProxy(Class<?> i_nterface, InvocationHandler handler){
-		return (IEntity) Proxy.newProxyInstance(i_nterface.getClassLoader(), new Class<?>[] {i_nterface}, handler);
+	@SuppressWarnings("unchecked")
+	public static <T> T createProxy(Class<T> i_nterface, InvocationHandler handler){
+		return (T) Proxy.newProxyInstance(i_nterface.getClassLoader(), new Class<?>[] {i_nterface}, handler);
 	}
 }

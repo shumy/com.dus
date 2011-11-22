@@ -1,4 +1,4 @@
-package com.dus.spi.store;
+package com.dus.spi.container;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,7 +8,6 @@ import java.util.Map;
 import com.dus.base.EntityID;
 import com.dus.base.IEntity;
 import com.dus.base.schema.SProperty;
-import com.dus.spi.Tree;
 
 public class Store implements IStore {
 	
@@ -76,8 +75,7 @@ public class Store implements IStore {
 	
 	@Override
 	public int addReference(EntityID id, SProperty property, EntityID ref) {
-		System.out.println("STORE ADD: " + id + " P" + property + " V=" + ref);
-		
+		//System.out.println("STORE ADD: " + id + " P" + property + " V=" + ref);
 		List<EntityID> refs = getOrCreateReferences(id, property);
 		refs.add(ref);
 		return refs.indexOf(ref);

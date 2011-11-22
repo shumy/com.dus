@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.dus.base.EntityID;
 import com.dus.base.schema.SProperty;
-import com.dus.spi.ITree;
+import com.dus.spi.container.ITree;
 
 public interface ITransactionRequest {
 	interface IAddRemoveReport {

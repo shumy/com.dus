@@ -7,7 +7,7 @@ import com.dus.base.notification.Notification;
 import com.dus.base.schema.SProperty;
 import com.dus.impl.Session;
 import com.dus.impl.transaction.TransactionData.AddRemoveReport;
-import com.dus.spi.store.IStore;
+import com.dus.spi.container.IStore;
 import com.dus.spi.transaction.ITransactionResponse;
 
 public class Transaction {

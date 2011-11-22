@@ -7,4 +7,5 @@ public interface ISchemaRepository {
 	void register(Class<? extends IEntity> type);
 	
 	SEntity getSchemaFor(Class<? extends IEntity> type);
+	SEntity getSchemaFor(String typeName);
 }
