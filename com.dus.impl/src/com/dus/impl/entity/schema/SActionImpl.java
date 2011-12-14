@@ -27,7 +27,10 @@ public class SActionImpl implements SAction {
 	public IActionExecutor getExecutor() {return executor;}
 
 	@Override
-	public void setExecutor(IActionExecutor executor) {this.executor = executor;}
+	public void setExecutor(IActionExecutor executor) {
+		this.executor = executor;
+		isEnabled = true;
+	}
 
 	@Override
 	public String toString() {

@@ -1,0 +1,10 @@
+DUS => Domain Uniformization Service
+
+Client Side:
+	1. Model by contract. 
+		Client API + Contract validations (similar to Contract4J, with no AspectJ). Eclipse plugin for contract validation?!
+
+
+Server Side:
+	2. Implement domain in server
+		ORM if needed and finder implementations. 
