@@ -33,6 +33,21 @@ public class MainTest {
 		repo.register(User.class);
 		repo.register(Group.class);
 		
+		/*SAction action = repo.getSchemaFor(User.class).getActionByName("verifyPassword");
+		action.setExecutor(new IActionExecutor() {
+			@Override
+			public Object execute(IEntity entity, Object... parameters) {
+				String password = (String) parameters[0];
+				if(password == null || password.isEmpty()) return false;
+				
+				SEntity sEntity = Dus.getSchemaRepository().getSchemaFor(User.class);
+				SProperty sProp = sEntity.getPropertyByName("password");
+				
+				String intPassword = entity.rGet(sProp);
+				
+				return intPassword.equals(password);
+			}
+		});*/
 		
 		//---------------------------------------------------------------------------------------
 		ISession session = Dus.createSession();
@@ -50,6 +65,9 @@ public class MainTest {
 			user.getGroups().add(group2);
 		
 		session.commit();
+		
+		System.out.println("PASSWORD Verification: " + user.verifyPassword("password"));
+		
 		
 		//reflection usage:
 		SEntity schema = user.getId().schema;
