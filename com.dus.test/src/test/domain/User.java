@@ -29,10 +29,6 @@ public interface User extends IEntity {
 			
 			return this.password.get().equals(password);
 		}
-		
-		boolean validate() {
-			return false;
-		}
 	}
 	
 	

@@ -13,10 +13,9 @@ import com.dus.base.IEntity;
 import com.dus.base.notification.INotificationListener;
 import com.dus.base.notification.Notification;
 import com.dus.base.schema.SProperty;
-import com.dus.base.schema.action.IActionExecutor;
-import com.dus.base.schema.action.SAction;
 import com.dus.impl.ReflectionHelper;
 import com.dus.impl.ReflectionHelper.MethodType;
+import com.dus.impl.entity.schema.SActionImpl;
 import com.dus.spi.container.IStore;
 
 public class EntityProxyHandler implements InvocationHandler {
@@ -92,10 +91,18 @@ public class EntityProxyHandler implements InvocationHandler {
 			switch (mType) {	
 				case IS:
 				case GET:
-					return entityMethods.get("rGet").execute(this, getProperty(mType, methodName));
+					SProperty property1 = getProperty(mType, methodName);
+					if(isCreated() && !property1.isRead()) 
+						throw new RuntimeException("Property ("+ property1.getName() +") from ("+ getId().schema.getType().getName() +") is not readable!");
+					
+					return getPropertyValue(property1);
 					
 				case SET:
-					entityMethods.get("rSet").execute(this, getProperty(mType, methodName), parameters[0]);
+					SProperty property2 = getProperty(mType, methodName);
+					if(isCreated() && !property2.isWrite()) 
+						throw new RuntimeException("Property ("+ property2.getName() +") from ("+ getId().schema.getType().getName() +") is not writable!");
+					
+					setPropertyValue(property2, parameters[0]);
 					return getEntity();
 					
 				case ACTION:
@@ -107,7 +114,15 @@ public class EntityProxyHandler implements InvocationHandler {
 			return null;
 		}
 	}
-		
+	
+	public Object getPropertyValue(SProperty property) {
+		return entityMethods.get("rGet").execute(this, property);
+	}
+	
+	public void setPropertyValue(SProperty property, Object value) {
+		entityMethods.get("rSet").execute(this, property, value);
+	}
+	
 	//--------------------------------------------------------------------------------------------------------------------
 	//Help methods--------------------------------------------------------------------------------------------------------
 	private boolean isEntityMethod(String methodName) {
@@ -115,19 +130,19 @@ public class EntityProxyHandler implements InvocationHandler {
 	}
 	
 	private Object executeUserMethod(String methodName, Object[] parameters) {
-		SAction action = null;
+		SActionImpl action = null;
 		Object[] parametersForAction = null;
 		if(methodName.equals("rInvoke")) {
-			action = (SAction) parameters[0];
+			action = (SActionImpl) parameters[0];
 			parametersForAction = Arrays.copyOfRange(parameters, 1, parameters.length);
 		} else {
-			action = id.schema.getActionByName(methodName);
+			action = (SActionImpl) id.schema.getActionByName(methodName);
 			parametersForAction = parameters;
 		}
 
 		if(action.isEnabled()) {
-			IActionExecutor executor = action.getExecutor();
-			return executor.execute(getEntity(), parametersForAction);
+			IMethodExecutor executor = action.getExecutor();
+			return executor.execute(this, parametersForAction);
 		}
 		
 		throw new RuntimeException("Executor not enabled/available for action: " + action.getName() + " in " + id.schema.getType().getName());

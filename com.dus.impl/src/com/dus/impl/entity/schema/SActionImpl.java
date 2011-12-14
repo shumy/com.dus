@@ -1,12 +1,12 @@
 package com.dus.impl.entity.schema;
 
-import com.dus.base.schema.action.IActionExecutor;
-import com.dus.base.schema.action.SAction;
+import com.dus.base.schema.SAction;
+import com.dus.impl.entity.IMethodExecutor;
 
 public class SActionImpl implements SAction {
 	private final String name;
 	private boolean isEnabled;
-	private IActionExecutor executor;
+	private IMethodExecutor executor;
 
 	public SActionImpl(String name) {
 		this.name = name;
@@ -23,11 +23,9 @@ public class SActionImpl implements SAction {
 	@Override
 	public void setEnabled(boolean isEnabled) {this.isEnabled = isEnabled;}
 
-	@Override
-	public IActionExecutor getExecutor() {return executor;}
-
-	@Override
-	public void setExecutor(IActionExecutor executor) {
+	public IMethodExecutor getExecutor() {return executor;}
+	
+	public void setExecutor(IMethodExecutor executor) {
 		this.executor = executor;
 		isEnabled = true;
 	}

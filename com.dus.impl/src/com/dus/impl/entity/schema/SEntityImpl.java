@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.dus.base.IEntity;
+import com.dus.base.schema.SAction;
 import com.dus.base.schema.SEntity;
 import com.dus.base.schema.SProperty;
-import com.dus.base.schema.action.SAction;
 import com.dus.container.IRList;
 
 public class SEntityImpl implements SEntity {

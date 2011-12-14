@@ -105,7 +105,6 @@ public class Executor_rGet implements IMethodExecutor {
 	@Override
 	public Object execute(EntityProxyHandler handler, Object... parameters) {
 		SProperty property = (SProperty) parameters[0];
-		if(handler.isCreated() && !property.isRead()) throw new RuntimeException("Property ("+ property.getName() +") from ("+ handler.getId().schema.getType().getName() +") is not readable!");
 		
 		IStore store = handler.getStore();
 		if(property.isMany()) { //is a reference list ?

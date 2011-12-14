@@ -1,7 +1,7 @@
 package com.dus.base;
 
+import com.dus.base.schema.SAction;
 import com.dus.base.schema.SProperty;
-import com.dus.base.schema.action.SAction;
 
 public interface IReflected {
 	

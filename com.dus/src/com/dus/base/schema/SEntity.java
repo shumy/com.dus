@@ -1,7 +1,6 @@
 package com.dus.base.schema;
 
 import com.dus.base.IEntity;
-import com.dus.base.schema.action.SAction;
 import com.dus.container.IRList;
 
 public interface SEntity {

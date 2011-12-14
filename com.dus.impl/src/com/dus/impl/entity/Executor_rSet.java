@@ -13,7 +13,6 @@ public class Executor_rSet implements IMethodExecutor {
 	@Override
 	public Object execute(EntityProxyHandler handler, Object... parameters) {
 		SProperty property = (SProperty) parameters[0];
-		if(handler.isCreated() && !property.isWrite()) throw new RuntimeException("Property ("+ property.getName() +") from ("+ handler.getId().schema.getType().getName() +") is not writable!");
 		
 		IStore store = handler.getStore();
 		Object newRawValue = parameters[1];

@@ -20,7 +20,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		
-		//Configure DUS service...
+		//Configure DUS service.....................................................................
 		DusConfig configs = new DusConfig();
 		configs.setInstanceOf(ITransactionRouter.class, new MyTransactionRouter());
 		configs.setInstanceOf(IQueryRouter.class, new MyQueryRouter());
@@ -33,23 +33,7 @@ public class MainTest {
 		repo.register(User.class);
 		repo.register(Group.class);
 		
-		/*SAction action = repo.getSchemaFor(User.class).getActionByName("verifyPassword");
-		action.setExecutor(new IActionExecutor() {
-			@Override
-			public Object execute(IEntity entity, Object... parameters) {
-				String password = (String) parameters[0];
-				if(password == null || password.isEmpty()) return false;
-				
-				SEntity sEntity = Dus.getSchemaRepository().getSchemaFor(User.class);
-				SProperty sProp = sEntity.getPropertyByName("password");
-				
-				String intPassword = entity.rGet(sProp);
-				
-				return intPassword.equals(password);
-			}
-		});*/
-		
-		//---------------------------------------------------------------------------------------
+		//Use DUS service...........................................................................
 		ISession session = Dus.createSession();
 		
 			Group group1 = session.create(Group.class, new Group.Builder("Admin"));
@@ -66,7 +50,7 @@ public class MainTest {
 		
 		session.commit();
 		
-		System.out.println("PASSWORD Verification: " + user.verifyPassword("password"));
+		System.out.println("PASSWORD Verification: " + user.verifyPassword("password1"));
 		
 		
 		//reflection usage:

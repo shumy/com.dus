@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dus.ISchemaRepository;
+import com.dus.base.ClientActions;
 import com.dus.base.IEntity;
 import com.dus.base.schema.SEntity;
 import com.dus.container.IRList;
 import com.dus.impl.ReflectionHelper.MethodType;
+import com.dus.impl.entity.IMethodExecutor;
+import com.dus.impl.entity.schema.Executor_action;
 import com.dus.impl.entity.schema.SActionImpl;
 import com.dus.impl.entity.schema.SEntityImpl;
 import com.dus.impl.entity.schema.SPropertyImpl;
@@ -31,7 +34,7 @@ public class SchemaRepository implements ISchemaRepository {
 			}
 		
 		schemas.put(type, entity);
-		//System.out.println(entity);
+		System.out.println(entity);
 	}
 	
 	@Override
@@ -90,6 +93,22 @@ public class SchemaRepository implements ISchemaRepository {
 					rSchema.addAction(action);
 				}
 			}
+			
+			for(Class<?> innerClass: i_nterface.getDeclaredClasses()) {
+				if(innerClass.getAnnotation(ClientActions.class) != null) {	//class of actions...
+					for(Method method: innerClass.getDeclaredMethods()) {
+						SActionImpl action = (SActionImpl) rSchema.getActionByName(method.getName());
+						
+						if(action != null) {
+							IMethodExecutor executor = new Executor_action(innerClass, method);
+							action.setExecutor(executor);
+						} else {
+							throw new RuntimeException("No action (" + method.getName() + ") found on enity: " + rSchema.getType());
+						}
+					}
+				}
+			}
+			
 			schemas.put(i_nterface, rSchema);
 		}
 		
