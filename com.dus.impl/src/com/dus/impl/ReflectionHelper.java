@@ -40,7 +40,13 @@ public class ReflectionHelper {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T createProxy(Class<T> i_nterface, InvocationHandler handler){
-		return (T) Proxy.newProxyInstance(i_nterface.getClassLoader(), new Class<?>[] {i_nterface}, handler);
+	public static <T> T createProxy(InvocationHandler handler, Class<T> i_nterface, Class<?> ...otherInterfaces){
+		Class<?>[] interfaces = new Class<?>[otherInterfaces.length + 1];
+		interfaces[0] = i_nterface;
+		
+		for(int i=0; i<otherInterfaces.length; i++)
+			interfaces[i+1] = otherInterfaces[i];
+		
+		return (T) Proxy.newProxyInstance(i_nterface.getClassLoader(), interfaces, handler);
 	}
 }

@@ -55,7 +55,6 @@ public class Session implements ISession {
 		
 		EntityID id = new EntityID(schema, "TMP-"+UUID.randomUUID().toString());
 		EntityProxyHandler handler = new EntityProxyHandler(id, store);
-		T entity = (T) handler.getEntity();
 		
 		Transaction tx = Context.getData().getContextObject(Transaction.class);
 		tx.newEntity(id);
@@ -66,11 +65,11 @@ public class Session implements ISession {
 				if(property == null) throw new RuntimeException("Property ("+ field.getName() +") not available in: "+ schema.getType().getName());
 				
 				Object value = ReflectionHelper.getValue(field, builder);
-				entity.rSet(property, value);
+				handler.setPropertyValue(property, value);
 			}
 		
 		handler.setCreated();
-		return entity;
+		return (T) handler.getEntity();
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package test.domain;
 
+import com.dus.base.Entity;
+
+@Entity
 public interface Person extends User {
 	//PROPERTIES--------------------------------------------------------------------------------
 	String getName();

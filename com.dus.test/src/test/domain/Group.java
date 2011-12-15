@@ -1,9 +1,11 @@
 package test.domain;
 
+import com.dus.base.Entity;
 import com.dus.base.IEntity;
 import com.dus.base.builder.IBuilder;
 import com.dus.base.finder.IFinder;
 
+@Entity
 public interface Group extends IEntity {
 
 	//PROPERTIES--------------------------------------------------------------------------------

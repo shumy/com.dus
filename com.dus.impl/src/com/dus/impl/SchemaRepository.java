@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dus.ISchemaRepository;
-import com.dus.base.ClientActions;
+import com.dus.base.Entity;
 import com.dus.base.IEntity;
 import com.dus.base.schema.SEntity;
 import com.dus.container.IRList;
@@ -94,21 +94,22 @@ public class SchemaRepository implements ISchemaRepository {
 				}
 			}
 			
-			for(Class<?> innerClass: i_nterface.getDeclaredClasses()) {
-				if(innerClass.getAnnotation(ClientActions.class) != null) {	//class of actions...
-					for(Method method: innerClass.getDeclaredMethods()) {
-						SActionImpl action = (SActionImpl) rSchema.getActionByName(method.getName());
-						
-						if(action != null) {
-							IMethodExecutor executor = new Executor_action(innerClass, method);
-							action.setExecutor(executor);
-						} else {
-							throw new RuntimeException("No action (" + method.getName() + ") found on enity: " + rSchema.getType());
-						}
+			Entity aEntity = i_nterface.getAnnotation(Entity.class);
+			if(aEntity == null) throw new RuntimeException("Class must have Entity annotation.");
+			
+			if(aEntity.actions() != Object.class) {
+				for(Method method: aEntity.actions().getDeclaredMethods()) {
+					SActionImpl action = (SActionImpl) rSchema.getActionByName(method.getName());
+					
+					if(action != null) {
+						IMethodExecutor executor = new Executor_action(aEntity.actions(), method);
+						action.setExecutor(executor);
+					} else {
+						throw new RuntimeException("No action (" + method.getName() + ") found on enity: " + rSchema.getType());
 					}
 				}
 			}
-			
+						
 			schemas.put(i_nterface, rSchema);
 		}
 		

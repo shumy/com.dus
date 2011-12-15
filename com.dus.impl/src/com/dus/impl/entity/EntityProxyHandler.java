@@ -10,6 +10,8 @@ import java.util.Map;
 
 import com.dus.base.EntityID;
 import com.dus.base.IEntity;
+import com.dus.base.INotifiable;
+import com.dus.base.IReflected;
 import com.dus.base.notification.INotificationListener;
 import com.dus.base.notification.Notification;
 import com.dus.base.schema.SProperty;
@@ -48,7 +50,7 @@ public class EntityProxyHandler implements InvocationHandler {
 		this.id = id;
 		this.store = store;
 		
-		IEntity entity = ReflectionHelper.createProxy(id.schema.getType(), this);
+		IEntity entity = ReflectionHelper.createProxy(this, id.schema.getType(), IReflected.class, INotifiable.class);
 		store.mapEntity(id, entity);
 	}
 	

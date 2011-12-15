@@ -23,7 +23,7 @@ public class FinderProxyHandler implements InvocationHandler {
 	public FinderProxyHandler(Session session, Class<? extends IFinder<? extends IEntity>> i_nterface, FetchOptions fOptions) {
 		this.session = session;
 		this.fOptions = fOptions;
-		this.finder = ReflectionHelper.createProxy(i_nterface, this);
+		this.finder = ReflectionHelper.createProxy(this, i_nterface);
 	}
 	
 	@Override

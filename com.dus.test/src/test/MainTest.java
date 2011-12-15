@@ -4,6 +4,7 @@ import com.dus.Dus;
 import com.dus.DusConfig;
 import com.dus.ISchemaRepository;
 import com.dus.ISession;
+import com.dus.base.IReflected;
 import com.dus.base.finder.IFinder;
 import com.dus.base.schema.SEntity;
 import com.dus.base.schema.SProperty;
@@ -50,13 +51,13 @@ public class MainTest {
 		
 		session.commit();
 		
-		System.out.println("PASSWORD Verification: " + user.verifyPassword("password1"));
+		System.out.println("PASSWORD Verification: " + user.verifyPassword("password"));
 		
 		
 		//reflection usage:
 		SEntity schema = user.getId().schema;
 		SProperty property = schema.getPropertyByName("login");
-		String login = user.rGet(property);
+		String login = ((IReflected)user).rGet(property);
 		System.out.println("LOGIN: " + login);
 		System.out.println(user);
 		

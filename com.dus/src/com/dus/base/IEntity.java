@@ -2,7 +2,7 @@ package com.dus.base;
 
 
 
-public interface IEntity extends INotifiable, IReflected {	
+public interface IEntity {	
 	EntityID getId();
 	
 	boolean validate();
